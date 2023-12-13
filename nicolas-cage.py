@@ -4,6 +4,7 @@ from mitmproxy import http
 
 from mitmproxy.addonmanager import Loader
 from mitmproxy.log import ALERT
+from aux_info.src_images import images
 
 logger = logging.getLogger(__name__)
 
@@ -17,8 +18,6 @@ def load(loader: Loader):
         "This is an alert. It has the same urgency as info, but will also pop up in the status bar.",
     )
 
-
-
 """Modify an HTTP form submission."""
 
 def request(flow: http.HTTPFlow) -> None:
@@ -27,7 +26,7 @@ def request(flow: http.HTTPFlow) -> None:
     logger.info(flow.request.path)
     logger.info(type(flow.request.path))
     if ".jpg" in flow.request.url or ".png" in flow.request.url or ".webp" in flow.request.url or ".svg" in flow.request.url:
-        flow.request.url = "https://img.olhardigital.com.br/wp-content/uploads/2023/05/super-homem-nicolas-cage.png"
+        flow.request.url = images.get_random_image()
         logger.info(f"[righers] {flow.request.url}")
 
 
