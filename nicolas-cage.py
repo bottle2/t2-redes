@@ -28,7 +28,12 @@ def response(flow: http.HTTPFlow) -> None:
     #    file.write(flow.response.get_text(False))
     for badword in le_manager.badwords:
         goodword = random.choice(le_manager.goodwords)
-        body = body.replace(badword.lower(), goodword)
+        body = body.replace(' ' + badword.lower() + ' ', ' ' + goodword + ' ')
+        body = body.replace(' ' + badword.lower() + ',', ' ' + goodword + ',')
+        body = body.replace(' ' + badword.lower() + '.', ' ' + goodword + '.')
+        body = body.replace(' ' + badword.lower() + '!', ' ' + goodword + '!')
+        body = body.replace(' ' + badword.lower() + '?', ' ' + goodword + '?')
+        body = body.replace(' ' + badword.lower() + ':', ' ' + goodword + ':')
     flow.response.set_text(body)
 
     #logger.info(f"there are {len(le_manager.badwords)} badwords and {len(le_manager.goodwords)}")
