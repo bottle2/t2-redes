@@ -87,7 +87,7 @@ Essa fase é bem obscura e complicada.
 - [ ] Coletar informações adicionais que melhorem a identificação dos clientes
 - [ ] Desconectar clientes que atinjam créditos sociais demasiadamente baixos
 
-## Trabalhos futuros
+## Trabalhos para o futuro
 
 - Substituir palavras proibidas por aceitáveis nos pacotes em trânsito
 - Contar palavras em mais tipos de arquivos: PDFs, legendas, pastas
