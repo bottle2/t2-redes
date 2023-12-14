@@ -13,28 +13,35 @@ le_manager = manager()
 #["addon", "method", "TCP", "request"]
 image_types = [".jpg", ".png", ".webp", ".svg", ".ico", ".gif"]
 
+def is_image(accept):
+    registries = [
+        "application", "font", "example", "message", "model", "multipart", "text", "video"
+    ]
+    return "image" in accept and all(r not in accept for r in registries)
+
 """Modify an HTTP form submission."""
 def request(flow: http.HTTPFlow) -> None:
-    if any(i in flow.request.path for i in image_types):
+    if "Accept" in flow.request.headers and is_image(flow.request.headers["Accept"]):
         flow.request.url = images.get_random_image()
 
 def response(flow: http.HTTPFlow) -> None:
-    body = flow.response.get_text(False).lower()
+    pass
+    #body = flow.response.get_text(False).lower()
     #if "Content-Type" in  flow.response.headers and "html" in flow.response.headers["Content-Type"]:
 
-    logger.info(flow.response.headers["Content-Type"])
+    #logger.info(flow.response.headers["Content-Type"])
     #with open("penis.txt", "a") as file:
     #    file.write(flow.request.pretty_host)
     #    file.write(flow.response.get_text(False))
-    for badword in le_manager.badwords:
-        goodword = random.choice(le_manager.goodwords)
-        body = body.replace(' ' + badword.lower() + ' ', ' ' + goodword + ' ')
-        body = body.replace(' ' + badword.lower() + ',', ' ' + goodword + ',')
-        body = body.replace(' ' + badword.lower() + '.', ' ' + goodword + '.')
-        body = body.replace(' ' + badword.lower() + '!', ' ' + goodword + '!')
-        body = body.replace(' ' + badword.lower() + '?', ' ' + goodword + '?')
-        body = body.replace(' ' + badword.lower() + ':', ' ' + goodword + ':')
-    flow.response.set_text(body)
+    #for badword in le_manager.badwords:
+    #    goodword = random.choice(le_manager.goodwords)
+    #    body = body.replace(' ' + badword.lower() + ' ', ' ' + goodword + ' ')
+    #    body = body.replace(' ' + badword.lower() + ',', ' ' + goodword + ',')
+    #    body = body.replace(' ' + badword.lower() + '.', ' ' + goodword + '.')
+    #    body = body.replace(' ' + badword.lower() + '!', ' ' + goodword + '!')
+    #    body = body.replace(' ' + badword.lower() + '?', ' ' + goodword + '?')
+    #    body = body.replace(' ' + badword.lower() + ':', ' ' + goodword + ':')
+    #flow.response.set_text(body)
 
     #logger.info(f"there are {len(le_manager.badwords)} badwords and {len(le_manager.goodwords)}")
         #    if badword.lower() in body:
