@@ -12,6 +12,25 @@ class ImageList:
     def add_image(self, img):
         if img.name not in [i.name for i in self.images]:
             self.images.append(img)
+            return True
+        return False
+    
+    def remove_image(self, name):
+        for i in self.images:
+            if i.name == name:
+                self.images.remove(i)
+                return True
+        return False
+    
+    def print_images(self):
+        for i in self.images:
+            print(f'{i.name}: {i.url}')
+
+    def get_image(self, name):
+        for i in self.images:
+            if i.name == name:
+                return i
+        return None
 
     def get_random_image_path(self):
         return random.choice(self.images).url
