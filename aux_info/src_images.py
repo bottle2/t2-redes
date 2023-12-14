@@ -1,5 +1,4 @@
 import random
-import pickle
 from os.path import exists
 
 class Image:
@@ -8,7 +7,7 @@ class Image:
         self.url = url
 
 class ImageList:
-    def __init__(self, file_path='aux_info/images.pickle'):
+    def __init__(self, file_path='aux_info/images.txt'):
         self.images = []
         self.file_path = file_path
         if exists(file_path):
@@ -34,12 +33,15 @@ class ImageList:
             print(f'{i.name}: {i.url}')
 
     def save(self):
-        with open(self.file_path, 'wb') as f:
-            pickle.dump(self.images, f)
+        with open(self.file_path, 'w') as f:
+            for image in self.images:
+                f.write(f'{image.name} {image.url}\n')
 
     def load(self):
-        with open(self.file_path, 'rb') as f:
-            self.images = pickle.load(f)
+        with open(self.file_path, 'r') as f:
+            for line in f.readlines():
+                name, url = line.split()
+                self.add_image(Image(name, url))
 
     def get_image(self, name):
         for i in self.images:
@@ -61,3 +63,5 @@ images.add_image(Image("cage6", "https://i.seadn.io/gae/Q2VmCetcE082J0PhisdQidWq
 images.add_image(Image("cage7", "https://i.pinimg.com/564x/29/b5/8c/29b58c47c5126cc4766f81b5ddb3e285.jpg"))
 images.add_image(Image("cage8", "https://ih0.redbubble.net/image.1603557678.9463/raf,360x360,075,t,fafafa:ca443f4786.jpg"))
 images.add_image(Image("cage9", "https://www.hollywoodreporter.com/wp-content/uploads/2023/11/Nicolas-Cage-Dream-Scenario-Premiere-GettyImages-1670833155-H-2023.jpg?w=1296"))
+
+images.print_images()
