@@ -16,4 +16,4 @@ def is_image(accept):
 
 def request(flow: http.HTTPFlow) -> None:
     if "Accept" in flow.request.headers and is_image(flow.request.headers["Accept"]):
-        flow.request.url = images.get_random_image()
+        flow.request.url = images.get_random_image_path()
