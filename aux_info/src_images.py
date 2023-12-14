@@ -1,4 +1,6 @@
 import random
+import pickle
+from os.path import exists
 
 class Image:
     def __init__(self, name, url):
@@ -6,12 +8,16 @@ class Image:
         self.url = url
 
 class ImageList:
-    def __init__(self):
+    def __init__(self, file_path='aux_info/images.pickle'):
         self.images = []
+        self.file_path = file_path
+        if exists(file_path):
+            self.load()
 
     def add_image(self, img):
         if img.name not in [i.name for i in self.images]:
             self.images.append(img)
+            self.save()
             return True
         return False
     
@@ -19,12 +25,21 @@ class ImageList:
         for i in self.images:
             if i.name == name:
                 self.images.remove(i)
+                self.save()
                 return True
         return False
     
     def print_images(self):
         for i in self.images:
             print(f'{i.name}: {i.url}')
+
+    def save(self):
+        with open(self.file_path, 'wb') as f:
+            pickle.dump(self.images, f)
+
+    def load(self):
+        with open(self.file_path, 'rb') as f:
+            self.images = pickle.load(f)
 
     def get_image(self, name):
         for i in self.images:
